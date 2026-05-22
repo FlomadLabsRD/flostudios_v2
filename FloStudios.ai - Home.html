@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FloStudios.ai — Creative Learning, Built at Flight Speed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles-spacex.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="components-spacex.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect } = React;
+
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "showDots": true,
+      "showStatBand": true
+    }/*EDITMODE-END*/;
+
+    const SECTIONS = [
+      { id: "hero", label: "Studio" },
+      { id: "caipo", label: "CAIPO" },
+      { id: "mood", label: "MoodChanger" },
+      { id: "travel", label: "Flo Travel" },
+      { id: "robo", label: "RoboCollective" },
+      { id: "freq", label: "Flo Frequency" },
+      { id: "crew", label: "Studio Crew" },
+      { id: "cta", label: "Apply" },
+    ];
+
+    function App() {
+      const [active, setActive] = useState("hero");
+      const [showApply, setShowApply] = useState(false);
+      const [toast, setToast] = useState(null);
+      const t = useTweaks(TWEAK_DEFAULTS);
+
+      useEffect(() => {
+        const io = new IntersectionObserver((entries) => {
+          let best = null;
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
+            }
+          });
+          if (best) setActive(best.target.id);
+        }, { threshold: [0.4, 0.6] });
+        SECTIONS.forEach(s => { const el = document.getElementById(s.id); if (el) io.observe(el); });
+        return () => io.disconnect();
+      }, []);
+
+      useEffect(() => {
+        if (!toast) return;
+        const x = setTimeout(() => setToast(null), 2600);
+        return () => clearTimeout(x);
+      }, [toast]);
+
+      const navTo = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        window.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+      };
+      const openApply = () => setShowApply(true);
+      const onApplied = () => setToast("Application Transmitted · Signal Locked");
+
+      return (
+        <div data-screen-label="01 Home">
+          <SxNav active={active} onNav={navTo} onApply={openApply} />
+          <SxHero onNav={navTo} />
+
+          <SxProject
+            id="caipo"
+            bg="sx-bg-caipo"
+            missionTag="PROD_01"
+            refId="CAIPO.AI · 2026.Q1"
+            eyebrow="Live Product · Wearable AI Officer"
+            headline="CAIPO"
+            sub="An always-on AI productivity officer that helps professionals run their workflow by voice. Designed and built by FloStudios crew with FloLabs Innovations Group."
+            primary="Visit CAIPO.ai"
+            secondary="Read the brief"
+            onAction={() => window.open("https://caipo.ai", "_blank")}
+            onSecondary={openApply}
+          />
+
+          <SxProject
+            id="mood"
+            bg="sx-bg-mood"
+            missionTag="PROD_02"
+            refId="MOODCHANGER.AI · 2026.Q2"
+            eyebrow="Live Product · Emotional Intelligence"
+            headline="MoodChanger"
+            sub="AI-powered wellness tracking and emotional intelligence for people, athletes, and pets. Brand identity, product design, and front-end shipped by the studio."
+            primary="Visit MoodChanger"
+            secondary="See the case study"
+            onAction={() => window.open("https://moodchanger.ai", "_blank")}
+            onSecondary={openApply}
+          />
+
+          <SxProject
+            id="travel"
+            bg="sx-bg-travel"
+            missionTag="PROD_03"
+            refId="FLO TRAVEL · 2026.Q2"
+            eyebrow="Live Product · Frontier Ventures"
+            headline="Flo Travel"
+            sub="An AI-driven travel planner generating personalized itineraries and destination intelligence. Built alongside the FloLabs ventures pipeline — currently in private alpha."
+            primary="Visit Flo Travel"
+            secondary="Join the alpha"
+            onAction={() => window.open("https://flotravel.com", "_blank")}
+            onSecondary={openApply}
+          />
+
+          <SxProject
+            id="robo"
+            bg="sx-bg-robo"
+            missionTag="PROD_04"
+            refId="ROBOCOLLECTIVE · 2026.Q1"
+            eyebrow="Live Product · Robot Marketplace"
+            headline="RoboCollective"
+            sub="A franchise platform and dealership marketplace connecting buyers with frontier robotics. E-commerce, content systems, and dealer tools — all shipped by studio crew."
+            primary="Visit RoboCollective"
+            secondary="See live products"
+            onAction={() => window.open("https://robocollective.ai", "_blank")}
+            onSecondary={openApply}
+          />
+
+          {t.showStatBand && <SxStatBand />}
+
+          <SxProject
+            id="freq"
+            bg="sx-bg-freq"
+            missionTag="MEDIA_01"
+            refId="S01 · 2026"
+            eyebrow="Audio Mission · Season 01"
+            headline="The Flo Frequency"
+            sub="An AI-powered show about the people actually building the future. Long conversations with engineers, founders, and studio crew shipping AI, robotics, and emerging tech inside FloLabs Innovations Group."
+            primary="Get Notified"
+            secondary="Submit a Guest"
+            onAction={openApply}
+            onSecondary={openApply}
+          />
+
+          <SxProject
+            id="crew"
+            bg="sx-bg-crew"
+            missionTag="CREW_042"
+            refId="RECRUITMENT_ACTIVE"
+            eyebrow="Open Missions · 12 Roles · Remote First"
+            headline="Studio Crew"
+            sub="Work on real AI and robotics products with senior makers as your mentors. Paid in portfolio, credit, and a recruitment fast-lane into the FloLabs Innovations Group network."
+            primary="Apply to Crew"
+            secondary="Explore Programs"
+            onAction={openApply}
+            onSecondary={() => window.open("https://flolabs.international/internships/", "_blank")}
+          />
+
+          <SxProject
+            id="cta"
+            bg="sx-bg-cta"
+            missionTag="LAUNCH_042"
+            refId="2026.Q2 · INITIATE"
+            eyebrow="Ready For Orbital Insertion?"
+            headline="Build with the Studio"
+            sub="Hire us for a project. Apply to the crew. Submit a guest for the show. Open a single channel to the studio and we&rsquo;ll route you to the right mission lead within 72 hours."
+            primary="Open a Channel →"
+            secondary="Email studios@flolabs.com"
+            onAction={openApply}
+            onSecondary={() => (window.location.href = "mailto:studios@flolabs.com")}
+          />
+
+          <SxFooter />
+
+          {t.showDots && <SxDots active={active} onNav={navTo} items={SECTIONS} />}
+          {showApply && <SxApplyModal onClose={() => setShowApply(false)} onSubmit={onApplied} />}
+          {toast && <div className="sx-toast">{toast}</div>}
+
+          <TweaksPanel title="Tweaks">
+            <TweakSection title="Chrome">
+              <TweakToggle t={t} k="showDots" label="Side dot navigator" />
+              <TweakToggle t={t} k="showStatBand" label="Stat band between sections" />
+            </TweakSection>
+          </TweaksPanel>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
