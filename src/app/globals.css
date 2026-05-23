@@ -1,12 +1,16 @@
-/* FloStudios.ai — SpaceX-style cinematic redesign */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-*,*::before,*::after { box-sizing: border-box; }
+/* FloStudios.ai — SpaceX-style cinematic design */
+
+*, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   background: #000;
   color: #fff;
-  font-family: "Space Grotesk", "D-DIN", -apple-system, system-ui, sans-serif;
+  font-family: "Space Grotesk", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
@@ -23,9 +27,12 @@ img { display: block; max-width: 100%; }
   transition: background .3s ease, padding .3s ease;
   background: linear-gradient(180deg, rgba(0,0,0,.4) 0%, transparent 100%);
 }
-.sx-nav.is-scrolled { background: rgba(0,0,0,.85); backdrop-filter: blur(8px); padding: 16px 36px; }
+.sx-nav.is-scrolled {
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(8px);
+  padding: 16px 36px;
+}
 .sx-brand {
-  font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   letter-spacing: 4px;
   color: #fff;
@@ -45,11 +52,15 @@ img { display: block; max-width: 100%; }
   cursor: pointer;
   padding: 6px 0;
   position: relative;
+  background: transparent;
+  border: 0;
 }
 .sx-nav-link:hover { opacity: 1; }
 .sx-nav-link.is-active::after {
-  content: ""; position: absolute; left: 50%; bottom: 0;
-  width: 16px; height: 2px; background: #fff;
+  content: "";
+  position: absolute; left: 50%; bottom: 0;
+  width: 16px; height: 2px;
+  background: #fff;
   transform: translateX(-50%);
 }
 .sx-nav-right { display: flex; align-items: center; gap: 24px; }
@@ -84,7 +95,8 @@ img { display: block; max-width: 100%; }
   z-index: 0;
 }
 .sx-section-bg::after {
-  content: ""; position: absolute; inset: 0;
+  content: "";
+  position: absolute; inset: 0;
   background:
     linear-gradient(180deg, rgba(0,0,0,.5) 0%, transparent 25%, transparent 60%, rgba(0,0,0,.85) 100%);
 }
@@ -104,7 +116,6 @@ img { display: block; max-width: 100%; }
   opacity: .95;
 }
 .sx-headline {
-  font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: clamp(38px, 5.4vw, 80px);
   line-height: 1;
@@ -115,7 +126,6 @@ img { display: block; max-width: 100%; }
   text-wrap: balance;
   max-width: 16ch;
 }
-.sx-headline em { font-style: normal; font-weight: 700; letter-spacing: -1.5px; }
 .sx-sub {
   font-size: 16px;
   line-height: 1.5;
@@ -123,9 +133,12 @@ img { display: block; max-width: 100%; }
   opacity: .9;
   max-width: 56ch;
   margin: 0;
-  text-wrap: pretty;
 }
-.sx-actions { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+.sx-actions {
+  display: flex; gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap; justify-content: center;
+}
 .sx-btn {
   display: inline-flex; align-items: center; gap: 10px;
   height: 40px;
@@ -148,8 +161,7 @@ img { display: block; max-width: 100%; }
 }
 .sx-btn-solid:hover { background: rgba(255,255,255,.85); color: #000; }
 
-/* Bottom-anchored variant — for first hero where headline sits low */
-.sx-section.is-bottom .sx-section-content { padding-bottom: 0; }
+/* Centered variant */
 .sx-section.is-center { justify-content: center; padding-bottom: 36px; }
 .sx-section.is-center .sx-section-content { padding-bottom: 0; }
 
@@ -171,39 +183,51 @@ img { display: block; max-width: 100%; }
   50% { transform: scaleY(1); opacity: 1; transform-origin: top; }
 }
 
-/* Top-of-section tiny meta line */
+/* Top-of-section meta line */
 .sx-section-top {
   position: absolute; top: 96px; left: 50%; transform: translateX(-50%);
   z-index: 3;
   font-size: 10px; letter-spacing: 3.5px; text-transform: uppercase;
   color: #fff; opacity: .65;
   display: flex; gap: 28px;
+  white-space: nowrap;
 }
-.sx-section-top span { display: inline-flex; gap: 8px; }
-.sx-section-top b { color: #fff; opacity: 1; font-weight: 600; }
+.sx-section-top b { color: #fff; opacity: 1; font-weight: 600; margin-left: 10px; }
 
-/* Hero specific: big mission title at top */
-.sx-hero-title {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  z-index: 2; text-align: center;
-  pointer-events: none;
+/* Hero specifics */
+.sx-hero-status {
+  position: absolute; bottom: 32px; left: 36px;
+  z-index: 3;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: #fff; opacity: .8;
+  display: flex; align-items: center; gap: 10px;
 }
-.sx-hero-tiny {
-  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
-  margin-bottom: 16px; opacity: .85;
+.sx-hero-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #4ade80; box-shadow: 0 0 8px #4ade80;
+  animation: sx-pulse 2s infinite;
+  flex-shrink: 0;
 }
-.sx-hero-mega {
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: clamp(54px, 10vw, 150px);
-  line-height: .88;
-  letter-spacing: -3px;
-  text-transform: uppercase;
-  color: #fff;
-  margin: 0;
+@keyframes sx-pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+
+.sx-hero-utc {
+  position: absolute; bottom: 32px; right: 36px;
+  z-index: 3;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: #fff; opacity: .65;
 }
 
-/* Side dots */
+/* Ken-Burns drift on hero bg */
+.sx-section.is-hero .sx-section-bg {
+  animation: sx-drift 32s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+@keyframes sx-drift {
+  0% { transform: scale(1.05) translateY(0); }
+  100% { transform: scale(1.15) translateY(-2%); }
+}
+
+/* -------- Side dots nav -------- */
 .sx-dots {
   position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
   display: flex; flex-direction: column; gap: 14px;
@@ -231,49 +255,7 @@ img { display: block; max-width: 100%; }
 }
 .sx-dot:hover .sx-dot-label { opacity: 1; }
 
-/* Ticker / status strip (subtle, bottom-left of hero) */
-.sx-hero-status {
-  position: absolute; bottom: 32px; left: 36px;
-  z-index: 3;
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: #fff; opacity: .8;
-  display: flex; align-items: center; gap: 10px;
-}
-.sx-hero-status-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #4ade80; box-shadow: 0 0 8px #4ade80;
-  animation: sx-pulse 2s infinite;
-}
-@keyframes sx-pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
-
-.sx-hero-utc {
-  position: absolute; bottom: 32px; right: 36px;
-  z-index: 3;
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: #fff; opacity: .65;
-}
-
-/* -------- Section variants with custom imagery -------- */
-.sx-bg-hero { background-image: url("assets/img-cosmos-deep.jpg"); }
-.sx-bg-caipo { background-image: url("assets/img-orbit-station.jpg"); }
-.sx-bg-mood { background-image: url("assets/img-orbital-dawn.png"); }
-.sx-bg-travel { background-image: url("assets/img-earth-blue-horizon.png"); }
-.sx-bg-robo { background-image: url("assets/img-launch.jpg"); }
-.sx-bg-freq { background-image: url("assets/img-cupola.png"); }
-.sx-bg-crew { background-image: url("assets/img-earthrise-moon.png"); }
-.sx-bg-cta { background-image: url("assets/img-astronaut-floating.png"); }
-
-/* Slight Ken-Burns drift on the hero only */
-.sx-section.is-hero .sx-section-bg {
-  animation: sx-drift 32s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-@keyframes sx-drift {
-  0% { transform: scale(1.05) translateY(0); }
-  100% { transform: scale(1.15) translateY(-2%); }
-}
-
-/* -------- Stat band — small SpaceX-style horizontal facts bar -------- */
+/* -------- Stat band -------- */
 .sx-stat-band {
   position: relative;
   background: #000;
@@ -292,7 +274,6 @@ img { display: block; max-width: 100%; }
   border-left: 1px solid rgba(255,255,255,.2);
 }
 .sx-stat-num {
-  font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: 56px;
   line-height: 1;
@@ -309,7 +290,7 @@ img { display: block; max-width: 100%; }
   margin-top: 4px;
 }
 
-/* -------- Footer (SpaceX-like minimal) -------- */
+/* -------- Footer -------- */
 .sx-footer {
   background: #000;
   padding: 64px 36px 32px;
@@ -324,9 +305,7 @@ img { display: block; max-width: 100%; }
   border-bottom: 1px solid rgba(255,255,255,.08);
   flex-wrap: wrap; gap: 36px;
 }
-.sx-footer-brand-block {
-  max-width: 360px;
-}
+.sx-footer-brand-block { max-width: 360px; }
 .sx-footer-brand-block h3 {
   font-size: 20px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
   margin: 0 0 14px;
@@ -354,7 +333,7 @@ img { display: block; max-width: 100%; }
 }
 .sx-footer-bottom-right { display: flex; gap: 28px; }
 
-/* -------- Modal -------- */
+/* -------- Apply modal -------- */
 .sx-modal-bg {
   position: fixed; inset: 0; z-index: 300;
   background: rgba(0,0,0,.85);
@@ -402,11 +381,10 @@ img { display: block; max-width: 100%; }
   transition: border-color .15s;
 }
 .sx-field input:focus, .sx-field select:focus, .sx-field textarea:focus { border-color: #fff; }
+.sx-field select { appearance: none; }
 .sx-field textarea { resize: vertical; min-height: 80px; }
 .sx-form-actions { display: flex; gap: 12px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
-.sx-form-actions small {
-  font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: .5;
-}
+.sx-form-actions small { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: .5; }
 
 /* -------- Toast -------- */
 .sx-toast {
@@ -416,9 +394,10 @@ img { display: block; max-width: 100%; }
   font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
   font-weight: 700;
   z-index: 350;
+  white-space: nowrap;
 }
 
-/* Responsive */
+/* -------- Responsive -------- */
 @media (max-width: 900px) {
   .sx-nav-links { display: none; }
   .sx-stat-band-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
@@ -431,4 +410,5 @@ img { display: block; max-width: 100%; }
   .sx-nav { padding: 16px 20px; }
   .sx-section { padding: 0 20px 64px; min-height: 640px; }
   .sx-stat-band-inner { grid-template-columns: 1fr; }
+  .sx-form-row { grid-template-columns: 1fr; }
 }
